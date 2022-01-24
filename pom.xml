@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Dependency versions -->
 		<aspectj.version>1.8.10</aspectj.version>
-		<bouncycastle.version>1.64</bouncycastle.version>
+		<bouncycastle.version>1.67</bouncycastle.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
 		<commons-collections.version>3.2.2</commons-collections.version>
 		<commons-codec.version>1.8</commons-codec.version>
