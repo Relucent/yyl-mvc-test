@@ -14,29 +14,25 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
 /** HTML视图 */
 public class HtmlView extends AbstractUrlBasedView {
 
-	// ==============================Fields===========================================
-	private Resource resource;
+    // ==============================Fields===========================================
+    private Resource resource;
 
-	// ==============================Methods==========================================
-	@Override
-	protected void renderMergedOutputModel(Map<String, Object> paramMap, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		InputStream input = null;
-		try {
-			IOUtils.copy(input = resource.getInputStream(), response.getOutputStream());
-		} finally {
-			IOUtils.closeQuietly(input);
-		}
-	}
+    // ==============================Methods==========================================
+    @Override
+    protected void renderMergedOutputModel(Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        try (InputStream input = resource.getInputStream()) {
+            IOUtils.copy(input, response.getOutputStream());
+        }
+    }
 
-	@Override
-	public boolean checkResource(Locale locale) throws Exception {
-		return super.checkResource(locale) && resource.isReadable();
-	}
+    @Override
+    public boolean checkResource(Locale locale) throws Exception {
+        return super.checkResource(locale) && resource.isReadable();
+    }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		super.afterPropertiesSet();
-		this.resource = getApplicationContext().getResource(getUrl());
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.afterPropertiesSet();
+        this.resource = getApplicationContext().getResource(getUrl());
+    }
 }

@@ -11,36 +11,29 @@ import org.apache.commons.io.IOUtils;
 
 public class Gzip {
 
-	public static byte[] zip(byte[] data) {
-		ByteArrayOutputStream output = null;
-		GZIPOutputStream stream = null;
-		ByteArrayInputStream input = null;
-		try {
-			IOUtils.copy(input = new ByteArrayInputStream(data), //
-					stream = new GZIPOutputStream(output = new ByteArrayOutputStream()));
-			stream.finish();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} finally {
-			IOUtils.closeQuietly(input);
-			IOUtils.closeQuietly(stream);
-			IOUtils.closeQuietly(output);
-		}
-		return output.toByteArray();
-	}
+    public static byte[] zip(byte[] data) {
 
-	public static byte[] unzip(byte[] data) {
-		ByteArrayOutputStream output = null;
-		InputStream input = null;
-		try {
-			IOUtils.copy(input = new GZIPInputStream(new ByteArrayInputStream(data)), //
-					output = new ByteArrayOutputStream());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} finally {
-			IOUtils.closeQuietly(input);
-			IOUtils.closeQuietly(output);
-		}
-		return output.toByteArray();
-	}
+        try (ByteArrayInputStream input = new ByteArrayInputStream(data)) {
+            try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+                try (GZIPOutputStream stream = new GZIPOutputStream(output)) {
+                    IOUtils.copy(input, stream);
+                    stream.finish();
+                }
+                return output.toByteArray();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static byte[] unzip(byte[] data) {
+        try (InputStream input = new GZIPInputStream(new ByteArrayInputStream(data))) {
+            try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+                IOUtils.copy(input, output);
+                return output.toByteArray();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

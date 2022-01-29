@@ -61,7 +61,8 @@ public class CommandExecutor {
 			this.writer = writer;
 		}
 
-		@Override
+		@SuppressWarnings("deprecation")
+        @Override
 		public void run() {
 			try {
 				IOUtils.copy(input, writer, ENCODING);
