@@ -1,6 +1,7 @@
 package yyl.mvc.plugin.jedis;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
 
 public class JedisDistributedLockExample {
 
@@ -11,7 +12,7 @@ public class JedisDistributedLockExample {
             System.out.println("Start");
             ds.ping();
 
-            JedisDistributedLock lock = ds.getDistributedLock("LOCK01");
+            Lock lock = ds.getLock("LOCK01");
 
             int count = 5;
             CountDownLatch latch = new CountDownLatch(count);
