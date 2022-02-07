@@ -4,12 +4,14 @@ import java.io.Closeable;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
 import java.util.function.Function;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocketFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -17,7 +19,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
-import yyl.mvc.common.io.IoUtil;
 
 /**
  * Redis 数据源 (基于Jedis封装)
@@ -122,7 +123,6 @@ public class JedisDS implements Closeable {
      * 设置指定键的值
      * @param key 键
      * @param value 值
-     * @return 状态码
      */
     public void setString(String key, String value) {
         try (Jedis jedis = getJedis()) {
@@ -143,6 +143,7 @@ public class JedisDS implements Closeable {
 
     /**
      * 执行 Redis 数据访问操作
+     * @param <T> 返回的结果对象类型
      * @param action 指定操作的回调对象
      * @return 操作返回的结果对象，或{@code null}
      */
@@ -181,7 +182,7 @@ public class JedisDS implements Closeable {
      * @param name 锁名称
      * @return 分布式锁
      */
-    public JedisDistributedLock getDistributedLock(String name) {
+    public Lock getLock(String name) {
         return distributedLockMap.computeIfAbsent(name, k -> new JedisDistributedLock(pool, pubSubs, name));
     }
 
@@ -190,11 +191,11 @@ public class JedisDS implements Closeable {
      */
     @Override
     public void close() {
-        IoUtil.closeQuietly(this.pool);
+        IOUtils.closeQuietly(this.pool, null);
     }
 
     // ==============================Builder==========================================
-    /** 创建器 */
+    /** 构建器 */
     public static class Builder {
         /** 连接池配置 */
         private JedisPoolConfig poolConfig = getDefaultPoolConfig();
@@ -224,6 +225,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置连接池
          * @param poolConfig 连接池配置项
+         * @return 该对象的引用
          */
         public Builder setPoolConfig(JedisPoolConfig poolConfig) {
             this.poolConfig = poolConfig;
@@ -233,6 +235,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置地址
          * @param host 地址
+         * @return 该对象的引用
          */
         public Builder setHost(String host) {
             this.host = host;
@@ -242,6 +245,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置端口
          * @param port 端口
+         * @return 该对象的引用
          */
         public Builder setPort(int port) {
             this.port = port;
@@ -251,6 +255,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置连接超时时间(毫秒)
          * @param connectionTimeout 连接超时时间
+         * @return 该对象的引用
          */
         public Builder setConnectionTimeout(int connectionTimeout) {
             this.connectionTimeout = connectionTimeout;
@@ -259,7 +264,8 @@ public class JedisDS implements Closeable {
 
         /**
          * 设置读取数据超时时间
-         * @param soTimeout the soTimeout to set
+         * @param soTimeout 读取数据超时时间(毫秒)
+         * @return 该对象的引用
          */
         public Builder setSoTimeout(int soTimeout) {
             this.soTimeout = soTimeout;
@@ -269,6 +275,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置密码
          * @param password 密码
+         * @return 该对象的引用
          */
         public Builder setPassword(String password) {
             this.password = password;
@@ -278,6 +285,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置数据库序号
          * @param database 数据库序号
+         * @return 该对象的引用
          */
         public Builder setDatabase(int database) {
             this.database = database;
@@ -287,6 +295,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置客户端名称
          * @param clientName 客户端名称
+         * @return 该对象的引用
          */
         public Builder setClientName(String clientName) {
             this.clientName = clientName;
@@ -296,6 +305,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置是否使用SSL
          * @param ssl 是否使用SSL
+         * @return 该对象的引用
          */
         public Builder setSsl(boolean ssl) {
             this.ssl = ssl;
@@ -305,6 +315,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置 SslSocket 工厂
          * @param sslSocketFactory SslSocket 工厂
+         * @return 该对象的引用
          */
         public Builder setSslSocketFactory(SSLSocketFactory sslSocketFactory) {
             this.sslSocketFactory = sslSocketFactory;
@@ -314,6 +325,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置 SSL 参数
          * @param sslParameters SSL 参数
+         * @return 该对象的引用
          */
         public Builder setSslParameters(SSLParameters sslParameters) {
             this.sslParameters = sslParameters;
@@ -323,6 +335,7 @@ public class JedisDS implements Closeable {
         /**
          * 设置主机名验证程序
          * @param hostnameVerifier 主机名验证程序
+         * @return 该对象的引用
          */
         public Builder setHostnameVerifier(HostnameVerifier hostnameVerifier) {
             this.hostnameVerifier = hostnameVerifier;

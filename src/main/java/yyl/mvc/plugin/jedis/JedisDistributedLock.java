@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -14,6 +13,7 @@ import java.util.function.Consumer;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import yyl.mvc.common.identifier.IdUtil;
 
 /**
  * 基于Redis(Jedis)的分布式锁实现
@@ -22,7 +22,7 @@ public class JedisDistributedLock implements Lock {
 
     private static final String LOCK_KEY_PREFIX = "_yyl__lock:";
     private static final String UNLOCK_MESSAGE = "~unlock";
-    private static final String PREFIX_ENTRY = UUID.randomUUID().toString();
+    private static final String PREFIX_ENTRY = IdUtil.uuid32();
     private static final Timer TIMER = new Timer(true);
 
     private final JedisPool pool;
@@ -225,7 +225,6 @@ public class JedisDistributedLock implements Lock {
     /**
      * 到期续订
      * @param threadId 线程ID
-     * @return 是否续订成功
      */
     protected void renewExpiration(long threadId) {
         TIMER.schedule(new TimerTask() {
