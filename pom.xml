@@ -44,7 +44,7 @@
 		<rhino.version>1.7.12</rhino.version>
 		<shiro-all.version>1.2.3</shiro-all.version>
 		<slf4j-log4j12.version>1.7.20</slf4j-log4j12.version>
-		<spring.version>4.3.7.RELEASE</spring.version>
+		<spring.version>5.3.18</spring.version>
 		<zookeeper.version>3.4.9</zookeeper.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jsp.version>2.1</jsp.version>
