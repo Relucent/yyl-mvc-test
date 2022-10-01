@@ -30,7 +30,7 @@
 		<gson.version>2.9.1</gson.version>
 		<guava.version>31.0.1-jre</guava.version>
 		<hikaricp.version>2.6.1</hikaricp.version>
-		<hibernate.version>4.3.11.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<hibernate-validator.version>7.0.2.Final</hibernate-validator.version>
 		<jackson.version>2.13.3</jackson.version>
 		<jedis.version>4.1.0</jedis.version>
@@ -46,7 +46,7 @@
 		<rhino.version>1.7.12</rhino.version>
 		<shiro-all.version>1.2.3</shiro-all.version>
 		<slf4j-log4j12.version>1.7.20</slf4j-log4j12.version>
-		<spring.version>4.3.7.RELEASE</spring.version>
+		<spring.version>5.3.23</spring.version>
 		<zookeeper.version>3.4.9</zookeeper.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jsp.version>2.1</jsp.version>
