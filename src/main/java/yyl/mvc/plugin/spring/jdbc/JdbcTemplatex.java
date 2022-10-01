@@ -59,8 +59,8 @@ public class JdbcTemplatex extends JdbcTemplate {
 	 * @param rowMapper 行映射
 	 * @return 分页查询結果
 	 */
-	public <T> SimplePage<T> pagedQuery(String sql, Object[] args, int start, int limit, RowMapper<T> rowMapper,Dialect dialect) {
-		return JdbcDaoHelper.pagedQuery(sql, args, start, limit, rowMapper, this,dialect);
+	public <T> SimplePage<T> pagedQuery(String sql, Object[] args, int start, int limit, RowMapper<T> rowMapper, Dialect dialect) {
+		return JdbcDaoHelper.pagedQuery(sql, args, start, limit, rowMapper, this, dialect);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class JdbcTemplatex extends JdbcTemplate {
 	 * @return 分页查询結果
 	 */
 	public <T> T queryOne(String sql, Object[] args, RowMapper<T> rowMapper) {
-		return JdbcDaoHelper.getSingleResult(super.query(sql, args, rowMapper));
+		return JdbcDaoHelper.getSingleResult(super.query(sql, rowMapper, args));
 	}
 
 	/**
