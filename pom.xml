@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -46,7 +45,8 @@
 		<rhino.version>1.7.12</rhino.version>
 		<shiro-all.version>1.2.3</shiro-all.version>
 		<slf4j-log4j12.version>1.7.20</slf4j-log4j12.version>
-		<spring.version>5.3.23</spring.version>
+		<spring.version>5.3.24</spring.version>
+		<spring-redis.version>2.7.6</spring-redis.version>
 		<zookeeper.version>3.4.9</zookeeper.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jsp.version>2.1</jsp.version>
@@ -138,6 +138,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${spring-redis.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
