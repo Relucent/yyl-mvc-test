@@ -1,18 +1,26 @@
 package yyl.mvc.common.io;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
-
-import yyl.mvc.common.constants.IoConstants;
+import yyl.mvc.common.constant.CharsetConstant;
+import yyl.mvc.common.constant.IoConstant;
 
 /**
  * IO工具类 <br>
@@ -22,7 +30,8 @@ public class IoUtil {
     /**
      * 工具类方法，实例不应在标准编程中构造。
      */
-    protected IoUtil() {}
+    protected IoUtil() {
+    }
 
     /**
      * 将文本写入到输出流中
@@ -70,7 +79,7 @@ public class IoUtil {
      * @throws IOException 如果发生I/O错误
      */
     public static long copyLarge(InputStream input, OutputStream output) throws IOException {
-        return copyLarge(input, output, new byte[IoConstants.DEFAULT_BUFFER_SIZE]);
+        return copyLarge(input, output, new byte[IoConstant.DEFAULT_BUFFER_SIZE]);
     }
 
     /**
@@ -85,7 +94,7 @@ public class IoUtil {
     public static long copyLarge(InputStream input, OutputStream output, byte[] buffer) throws IOException {
         long count = 0;
         int n = 0;
-        while (IoConstants.EOF != (n = input.read(buffer))) {
+        while (IoConstant.EOF != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
             count += n;
         }
@@ -120,7 +129,7 @@ public class IoUtil {
      * @throws IOException 如果发生I/O错误
      */
     public static long copyLarge(Reader input, Writer output) throws IOException {
-        return copyLarge(input, output, new char[IoConstants.DEFAULT_BUFFER_SIZE]);
+        return copyLarge(input, output, new char[IoConstant.DEFAULT_BUFFER_SIZE]);
     }
 
     /**
@@ -135,7 +144,7 @@ public class IoUtil {
     public static long copyLarge(Reader input, Writer output, char[] buffer) throws IOException {
         long count = 0;
         int n = 0;
-        while (IoConstants.EOF != (n = input.read(buffer))) {
+        while (IoConstant.EOF != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
             count += n;
         }
@@ -182,15 +191,111 @@ public class IoUtil {
     }
 
     /**
-     * 获得输入流数据。<br>
-     * 该方法不会{@code close}数据流。<br>
+     * 如果给定字符流是{@link BufferedWriter}，则返回该字符流，否则包装一个 BufferedWriter返回。
+     * @param writer 字符写入流
+     * @return {@link BufferedWriter}
+     */
+    public static BufferedWriter buffer(final Writer writer) {
+        return writer instanceof BufferedWriter ? (BufferedWriter) writer : new BufferedWriter(writer);
+    }
+
+    /**
+     * 如果给定字符流是{@link BufferedReader}，则返回该字符流，否则包装一个 BufferedReader返回。
+     * @param reader 字符读取流
+     * @return {@link BufferedReader}
+     */
+    public static BufferedReader buffer(final Reader reader) {
+        return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
+    }
+
+    /**
+     * 转换字节流 {@code OutputStream} 为字符流 {@code Writer}，字符集使用 UTF8
+     * @param output 字节输出流
+     * @return 字符流({@code Writer})
+     */
+    public static Writer toWriter(final OutputStream output) {
+        return toWriter(output, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 转换字节流 {@code OutputStream} 为字符流 {@code Writer}
+     * @param output 字节输出流
+     * @param charset 字符编码
+     * @return 字符流({@code Writer})
+     */
+    public static Writer toWriter(final OutputStream output, final Charset charset) {
+        return new OutputStreamWriter(output, charset);
+    }
+
+    /**
+     * 转换字节流 {@code InputStream} 为字符流 {@code Reader} ，字符集使用 UTF8
+     * @param input 字节输入流
+     * @return 字符流(读取)
+     */
+    public static Reader toReader(final InputStream input) {
+        return toReader(input, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 转换字节流 {@code InputStream} 为字符流 {@code Reader}
+     * @param input 字节输入流
+     * @param charset 字符编码
+     * @return 字符流(读取)
+     */
+    public static Reader toReader(final InputStream input, final Charset charset) {
+        return new InputStreamReader(input, charset);
+    }
+
+    /**
+     * 获取数据流数据。该方法不会{@code close}数据流。
      * @param input 流数据
      * @return 流数据的字节数组
-     * @throws IOException 出现IO异常
+     * @throws IOException 出现IO异常时抛出
      */
     public static byte[] toByteArray(InputStream input) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         copy(input, output);
         return output.toByteArray();
+    }
+
+    /**
+     * 以字符串形式获取<code>InputStream</code>的内容。
+     * @param input 输入流
+     * @return 字符串
+     * @throws IOException 出现IO异常时抛出
+     */
+    public static String toString(final InputStream input) throws IOException {
+        return toString(input, CharsetConstant.UTF_8);
+    }
+
+    /**
+     * 以字符串形式获取<code>InputStream</code>的内容。
+     * @param input 输入流
+     * @param charset 字符编码
+     * @return 字符串
+     * @throws IOException 出现IO异常时抛出
+     */
+    public static String toString(final InputStream input, final Charset charset) throws IOException {
+        try (final Writer writer = new StringWriter()) {
+            copyLarge(new InputStreamReader(input, charset), writer);
+            return writer.toString();
+        }
+    }
+
+    /**
+     * 获取读取器的内容作为字符串列表，每行一个条目。
+     * @param input 字符读取流
+     * @return 字符串列表（不会为空）
+     * @throws IOException 出现IO错误，抛出异常
+     */
+    public static List<String> readLines(final Reader input) throws IOException {
+        final BufferedReader reader = buffer(input);
+        final List<String> list = new ArrayList<>();
+        String line = reader.readLine();
+        while (line != null) {
+            list.add(line);
+            line = reader.readLine();
+        }
+        return list;
     }
 }

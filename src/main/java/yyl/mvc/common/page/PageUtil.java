@@ -8,13 +8,19 @@ package yyl.mvc.common.page;
 public class PageUtil {
 
     /**
+     * 工具类方法，实例不应在标准编程中构造。
+     */
+    protected PageUtil() {
+    }
+
+    /**
      * 根据当前页第一条记录数和每页最大记录数计算出当前页数
      * @param offset 当前页第一条记录的索引
      * @param limit 每页最大记录数
      * @return 当前页数
      */
-    public static int getCurrent(int offset, int limit) {
-        return (offset / limit) + 1;
+    public static long getCurrent(long offset, long limit) {
+        return (offset / limit) + 1L;
     }
 
     /**
@@ -23,11 +29,11 @@ public class PageUtil {
      * @param limit 每页最大记录数
      * @return 本页第一条记录的索引
      */
-    public static int getOffset(int current, int limit) {
-        if ((current < 1) || (limit < 1)) {
-            return -1;
+    public static long getOffset(long current, long limit) {
+        if ((current < 1L) || (limit < 1L)) {
+            return -1L;
         } else {
-            return (current - 1) * limit;
+            return (current - 1L) * limit;
         }
     }
 
@@ -37,11 +43,11 @@ public class PageUtil {
      * @param limit 每页最大记录数
      * @return 最大页数
      */
-    public static int getPageTotal(long total, int limit) {
-        if ((total < 0) || (limit < 1)) {
-            return -1;
+    public static long getPageTotal(long total, long limit) {
+        if ((total < 0L) || (limit < 1L)) {
+            return -1L;
         } else {
-            return (int) ((total - 1) / limit) + 1;
+            return ((total - 1L) / limit) + 1L;
         }
     }
 }

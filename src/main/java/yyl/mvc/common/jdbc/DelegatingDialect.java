@@ -32,7 +32,7 @@ public class DelegatingDialect implements Dialect {
     }
 
     @Override
-    public String getLimitSql(String sql, int start, int limit) {
+    public String getLimitSql(String sql, long start, long limit) {
         return dialectHolder.get().getLimitSql(sql, start, limit);
     }
 

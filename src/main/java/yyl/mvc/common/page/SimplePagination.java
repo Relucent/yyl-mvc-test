@@ -1,5 +1,7 @@
 package yyl.mvc.common.page;
 
+import yyl.mvc.common.constant.PageConstant;
+
 /**
  * 分页查询条件参数<br>
  * @author YYL
@@ -10,17 +12,17 @@ public class SimplePagination implements Pagination {
 
     // =================================Fields=================================================
     /** 开始查询 的数据索引号 (从0开始) */
-    private int offset = 0;
+    private long offset = 0;
 
     /** 每页条数 */
-    private int limit = DEFAULT_LIMIT;
+    private long limit = PageConstant.DEFAULT_LIMIT;
 
     // =================================Constructors===========================================
     /**
      * 构造函数
      */
     public SimplePagination() {
-        this(0, DEFAULT_LIMIT);
+        this(0, PageConstant.DEFAULT_LIMIT);
     }
 
     /**
@@ -28,7 +30,7 @@ public class SimplePagination implements Pagination {
      * @param offset 查询数据开始索引
      * @param limit 查询记录数
      */
-    public SimplePagination(int offset, int limit) {
+    public SimplePagination(long offset, long limit) {
         this.offset = offset;
         this.limit = limit;
     }
@@ -38,7 +40,7 @@ public class SimplePagination implements Pagination {
      * 获取从第几条数据开始查询
      * @return 查询的偏移量
      */
-    public int getOffset() {
+    public long getOffset() {
         return offset;
     }
 
@@ -46,7 +48,7 @@ public class SimplePagination implements Pagination {
      * 设置从第几条数据开始查询
      * @param offset 查询的偏移量
      */
-    public void setOffset(int offset) {
+    public void setOffset(long offset) {
         this.offset = offset;
     }
 
@@ -54,7 +56,7 @@ public class SimplePagination implements Pagination {
      * 获取每页显示记录数
      * @return 每页显示记录数
      */
-    public int getLimit() {
+    public long getLimit() {
         return limit;
     }
 
@@ -62,7 +64,7 @@ public class SimplePagination implements Pagination {
      * 设置每页显示记录数
      * @param limit 每页显示记录数
      */
-    public void setLimit(int limit) {
+    public void setLimit(long limit) {
         this.limit = limit;
     }
 

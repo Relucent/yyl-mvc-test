@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import yyl.mvc.common.jdbc.impl.Db2Dialect;
-import yyl.mvc.common.jdbc.impl.GreenPlumDialect;
 import yyl.mvc.common.jdbc.impl.HsqldbDialect;
 import yyl.mvc.common.jdbc.impl.InformixDialect;
 import yyl.mvc.common.jdbc.impl.MySqlDialect;
@@ -22,23 +21,31 @@ public class DialectRouteUtil {
     private static final Map<String, Class<? extends Dialect>> DIALECT_ALIAS_MAP = new ConcurrentHashMap<>();
     private static final Map<String, Dialect> URL_DIALECT_MAP = new ConcurrentHashMap<>();
 
+    private DialectRouteUtil() {
+    }
+
     static {
-        // HSQLDB
+        // HsqlDb
         DIALECT_ALIAS_MAP.put("hsqldb", HsqldbDialect.class);
         DIALECT_ALIAS_MAP.put("h2", HsqldbDialect.class);
         DIALECT_ALIAS_MAP.put("phoenix", HsqldbDialect.class);
-        DIALECT_ALIAS_MAP.put("postgresql", PostgreSqlDialect.class);
-        DIALECT_ALIAS_MAP.put("greenplum", GreenPlumDialect.class);
 
-        // MYSQL
+        // PostgreSql
+        DIALECT_ALIAS_MAP.put("postgresql", PostgreSqlDialect.class);
+        DIALECT_ALIAS_MAP.put("greenplum", PostgreSqlDialect.class);
+
+        // MySql
         DIALECT_ALIAS_MAP.put("mysql", MySqlDialect.class);
         DIALECT_ALIAS_MAP.put("mariadb", MySqlDialect.class);
         DIALECT_ALIAS_MAP.put("sqlite", MySqlDialect.class);
-        // ORACLE
+
+        // Oracle
         DIALECT_ALIAS_MAP.put("oracle", OracleDialect.class);
         DIALECT_ALIAS_MAP.put("dm", OracleDialect.class);
+
         // DB2
         DIALECT_ALIAS_MAP.put("db2", Db2Dialect.class);
+
         // INFORMIX
         DIALECT_ALIAS_MAP.put("informix", InformixDialect.class);
         DIALECT_ALIAS_MAP.put("informix-sqli", InformixDialect.class);
@@ -48,7 +55,7 @@ public class DialectRouteUtil {
      * 根据数据库连接获取数据库方言
      * @param conn 数据库连接
      * @return 数据库方言
-     * @throws SQLException
+     * @throws SQLException SQL异常
      */
     public static Dialect getDialect(Connection conn) throws SQLException {
         String url = conn.getMetaData().getURL();

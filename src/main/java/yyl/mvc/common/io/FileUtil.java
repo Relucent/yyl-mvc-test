@@ -11,6 +11,12 @@ import java.io.IOException;
  */
 public class FileUtil {
 
+    /**
+     * 工具类方法，实例不应在标准编程中构造。
+     */
+    protected FileUtil() {
+    }
+
     // -----------------------------------------------------------------------
     /**
      * 获得系统临时目录{@link File}
@@ -98,8 +104,14 @@ public class FileUtil {
      */
     public static void chmod666(File file) {
         if (file.exists()) {
-            file.setReadable(true, false);// 读
-            file.setWritable(true, false);// 写
+            // 读允许
+            if (file.setReadable(true, false)) {
+                // ignore
+            }
+            // 写允许
+            if (file.setWritable(true, false)) {
+                // ignore
+            }
         }
     }
 }

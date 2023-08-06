@@ -15,7 +15,7 @@ import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import yyl.mvc.common.constants.CharConstants;
+import yyl.mvc.common.constant.CharConstant;
 import yyl.mvc.common.crypto.CryptoException;
 import yyl.mvc.common.crypto.ProviderFactory;
 
@@ -38,7 +38,7 @@ public class SecretKeyUtil {
     }
 
     /** 随机字符串可选字符 */
-    private static final char[] RANDOM_CHARS = {//
+    private static final char[] RANDOM_CHARS = { //
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', //
             'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', //
@@ -210,7 +210,7 @@ public class SecretKeyUtil {
      * @return 主体算法名
      */
     private static String getMainAlgorithm(String algorithm) {
-        int slashIndex = algorithm.indexOf(CharConstants.SLASH);
+        int slashIndex = algorithm.indexOf(CharConstant.SLASH);
         if (slashIndex > 0) {
             return algorithm.substring(0, slashIndex);
         }

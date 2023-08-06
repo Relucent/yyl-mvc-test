@@ -5,21 +5,17 @@ import yyl.mvc.common.jdbc.Dialect;
 /**
  * JDBC查询方言Oracle实现，主要用于提供分页查询<br>
  */
-public class OracleDialect implements Dialect {
+public class OracleDialect extends AbstractDialect implements Dialect {
 
     public static final OracleDialect INSTANCE = new OracleDialect();
 
     @Override
-    public String getCountSql(String sql) {
-        return "select count(*) as COUNT___y from (" + sql + ") T___T";
-    }
-
-    @Override
-    public String getLimitSql(String sql, int offset, int limit) {
-        return " SELECT X___X.* FROM  ( " //
-                + " SELECT ROWNUM as ROWNO___y, T__T.* FROM (" + sql + ") T__T  WHERE ROWNUM <=" + (offset + limit)
-                + " ) X___X " //
-                + " WHERE X___X.ROWNO___y > " + offset + " ";
+    public String getLimitSql(String sql, long offset, long limit) {
+        return " " //
+                + "SELECT T__X.* FROM  ( " //
+                + " SELECT ROWNUM as ROWNO__L, T__Y.* FROM (" + sql + ") T__Y  WHERE ROWNUM <=" + (offset + limit) //
+                + ") T__X " //
+                + "WHERE T__X.ROWNO__L > " + offset + " ";
     }
 
     @Override

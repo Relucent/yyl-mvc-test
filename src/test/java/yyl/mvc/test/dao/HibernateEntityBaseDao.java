@@ -25,10 +25,10 @@ public abstract class HibernateEntityBaseDao<T> extends HibernateSimpleEntityDao
      */
     public SimplePage<T> pagedQuery(Pagination pagination, Mapx filters) {
         Criteria criteria = super.createCriteria(super.entityClass);
-        int offset = pagination.getOffset();
-        int limit = pagination.getLimit();
+        long offset = pagination.getOffset();
+        long limit = pagination.getLimit();
         buildCriterions(criteria, filters, super.entityClass);
-        return super.pagedQuery(criteria, offset, limit);
+        return super.pagedQuery(criteria, (int) offset, (int) limit);
     }
 
     protected void buildCriterions(Criteria criteria, Mapx filters, Class<T> entityClass) {
