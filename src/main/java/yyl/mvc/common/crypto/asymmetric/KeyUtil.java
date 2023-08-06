@@ -13,7 +13,7 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.KeySpec;
 
-import yyl.mvc.common.constants.CharConstants;
+import yyl.mvc.common.constant.CharConstant;
 import yyl.mvc.common.crypto.CryptoException;
 import yyl.mvc.common.crypto.ProviderFactory;
 
@@ -132,7 +132,6 @@ public class KeyUtil {
         return keyPairGenerator.generateKeyPair();
     }
 
-
     /**
      * 生成用于密钥对(非对称加密的公钥和私钥)<br>
      * @param algorithm 非对称加密算法
@@ -217,7 +216,6 @@ public class KeyUtil {
         }
     }
 
-
     /**
      * 获取主体算法名<br>
      * 例如：<br>
@@ -228,7 +226,7 @@ public class KeyUtil {
      */
     private static String getMainAlgorithm(String algorithm) {
         // 获取加密算法第主体算法名称
-        int slashIndex = algorithm.indexOf(CharConstants.SLASH);
+        int slashIndex = algorithm.indexOf(CharConstant.SLASH);
         if (slashIndex > 0) {
             algorithm = algorithm.substring(0, slashIndex);
         }

@@ -13,13 +13,13 @@ public interface Page<T> extends Serializable {
      * 获取从第几条数据开始查询
      * @return 开始查询索引
      */
-    int getOffset();
+    long getOffset();
 
     /**
      * 获取每页查询记录数
      * @return 每页查询记录数
      */
-    int getLimit();
+    long getLimit();
 
     /**
      * 获取总记录数

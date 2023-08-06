@@ -3,6 +3,8 @@ package yyl.mvc.common.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import yyl.mvc.common.constant.PageConstant;
+
 /**
  * 分页查询的结果数据 <br>
  * @author YYL
@@ -13,9 +15,9 @@ public class SimplePage<T> implements Page<T> {
 
     // =================================Fields================================================
     /** 开始查询 的数据索引号 (从0开始) */
-    private int offset = 0;
+    private long offset = PageConstant.DEFAULT_OFFSET;
     /** 每页条数 */
-    private int limit = Pagination.DEFAULT_LIMIT;
+    private long limit = PageConstant.DEFAULT_LIMIT;
     /** 总记录数 */
     private long total = 0;
     /** 当前页数据 */
@@ -26,7 +28,7 @@ public class SimplePage<T> implements Page<T> {
      * 构造函数
      */
     public SimplePage() {
-        this.records = new ArrayList<T>();
+        this.records = new ArrayList<>();
     }
 
     /**
@@ -44,7 +46,7 @@ public class SimplePage<T> implements Page<T> {
      * @param records 当前页数据
      * @param total 总记录数
      */
-    public SimplePage(int offset, int limit, List<T> records, long total) {
+    public SimplePage(long offset, long limit, List<T> records, long total) {
         this.offset = offset;
         this.limit = limit;
         this.records = records;
@@ -56,7 +58,7 @@ public class SimplePage<T> implements Page<T> {
      * 获取从第几条数据开始查询
      * @return 开始查询索引
      */
-    public int getOffset() {
+    public long getOffset() {
         return offset;
     }
 
@@ -64,7 +66,7 @@ public class SimplePage<T> implements Page<T> {
      * 设置从第几条数据开始查询
      * @param offset 开始查询索引
      */
-    public void setOffset(int offset) {
+    public void setOffset(long offset) {
         this.offset = offset;
     }
 
@@ -72,7 +74,7 @@ public class SimplePage<T> implements Page<T> {
      * 获取每页查询记录数
      * @return 每页查询记录数
      */
-    public int getLimit() {
+    public long getLimit() {
         return limit;
     }
 
@@ -80,7 +82,7 @@ public class SimplePage<T> implements Page<T> {
      * 设置每页显示条数
      * @param limit 每页查询记录数
      */
-    public void setLimit(int limit) {
+    public void setLimit(long limit) {
         this.limit = limit;
     }
 
@@ -99,8 +101,6 @@ public class SimplePage<T> implements Page<T> {
     public void setTotal(long total) {
         this.total = total;
     }
-
-
 
     /**
      * 获取当前页数据

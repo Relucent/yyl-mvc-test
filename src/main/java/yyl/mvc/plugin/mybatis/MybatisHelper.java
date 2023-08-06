@@ -27,8 +27,8 @@ public class MybatisHelper {
             PAGINATION_HOLDER.set(pagination);
             TOTAL_HOLDER.set(-1L);
             List<T> records = select.get();
-            int offset = pagination.getOffset();
-            int limit = pagination.getLimit();
+            long offset = pagination.getOffset();
+            long limit = pagination.getLimit();
             long total = TOTAL_HOLDER.get();
             return new SimplePage<T>(offset, limit, records, total);
         } finally {
@@ -70,5 +70,6 @@ public class MybatisHelper {
 
     /** 查询方法 */
     @FunctionalInterface
-    public static interface Select<T> extends Supplier<List<T>> {}
+    public static interface Select<T> extends Supplier<List<T>> {
+    }
 }

@@ -7,13 +7,13 @@ package yyl.mvc.common.jdbc;
 public interface Dialect {
 
     /**
-     * 获得分页SQL</br>
+     * 获得分页SQL
      * @param sql 原始SQL
-     * @param offset 查詢记录的偏移量
+     * @param start 第一个记录的偏移量
      * @param limit 每页查询的最大数量
      * @return 分页SQL
      */
-    String getLimitSql(String sql, int offset, int limit);
+    String getLimitSql(String sql, long start, long limit);
 
     /**
      * 将SQL转换为总记录数SQL
