@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.StaticScriptSource;
 
-import yyl.mvc.common.logging.Logger;
+import com.github.relucent.base.common.logging.Logger;
 
 /**
  * 基于_Redis的分布式锁实现

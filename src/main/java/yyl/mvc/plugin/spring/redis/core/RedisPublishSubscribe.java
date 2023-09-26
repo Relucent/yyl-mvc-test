@@ -10,7 +10,7 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import yyl.mvc.common.logging.Logger;
+import com.github.relucent.base.common.logging.Logger;
 
 /**
  * 消息发布订阅工具类

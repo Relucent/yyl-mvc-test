@@ -2,10 +2,11 @@ package yyl.mvc.test.mapper;
 
 import java.util.List;
 
-import yyl.mvc.plugin.mybatis.annotation.MapperRepository;
+import org.springframework.stereotype.Repository;
+
 import yyl.mvc.test.model.Demo;
 
-@MapperRepository
+@Repository
 public interface DemoMapper {
 
     Long insert(Demo model);

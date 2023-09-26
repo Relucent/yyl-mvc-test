@@ -7,7 +7,7 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.metadata.ClassMetadata;
 import org.springframework.beans.factory.InitializingBean;
 
-import yyl.mvc.common.convert.ConvertUtil;
+import com.github.relucent.base.common.convert.ConvertUtil;
 
 /**
  * 实体元数据信息对象工具类

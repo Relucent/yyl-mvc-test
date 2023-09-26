@@ -7,17 +7,15 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-
-import yyl.mvc.common.time.DateUtil;
+import com.github.relucent.base.common.time.DateUtil;
 
 /**
  * 日期反序列化
  */
-
 public class DatePowerDeserializer extends JsonDeserializer<Date> {
 
     /** Singleton instance to use. */
-    public final static DatePowerDeserializer INSTANCE = new DatePowerDeserializer();
+    public static final DatePowerDeserializer INSTANCE = new DatePowerDeserializer();
 
     @Override
     public Date deserialize(JsonParser parser, DeserializationContext context)

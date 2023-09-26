@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import yyl.mvc.common.jdbc.Dialect;
-import yyl.mvc.common.lang.CollectionUtil;
-import yyl.mvc.common.page.Page;
-import yyl.mvc.common.page.Pagination;
-import yyl.mvc.common.page.SimplePage;
-import yyl.mvc.common.thread.ThreadUtil;
+import com.github.relucent.base.common.collection.CollectionUtil;
+import com.github.relucent.base.common.jdbc.Dialect;
+import com.github.relucent.base.common.page.Page;
+import com.github.relucent.base.common.page.Pagination;
+import com.github.relucent.base.common.page.SimplePage;
+import com.github.relucent.base.common.thread.ThreadUtil;
 
 /**
  * 基于JDBC的数据访问层支持工具类.<br>

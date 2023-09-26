@@ -14,9 +14,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PropertiesLoaderSupport;
 
+import com.github.relucent.base.common.logging.Logger;
 import com.google.common.collect.Lists;
-
-import yyl.mvc.common.logging.Logger;
 
 public class ApplicationPropertiesFactoryBean extends PropertiesLoaderSupport implements FactoryBean<Properties>, InitializingBean {
 

@@ -1,5 +1,7 @@
 package yyl.mvc.plugin.jackson;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,45 +9,53 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import yyl.mvc.common.collection.Listx;
-import yyl.mvc.common.collection.Mapx;
-import yyl.mvc.plugin.jackson.databind.DatePowerDeserializer;
-import yyl.mvc.plugin.jackson.databind.DatePowerSerializer;
-import yyl.mvc.plugin.jackson.databind.ListxDeserializer;
-import yyl.mvc.plugin.jackson.databind.MapxDeserializer;
-import yyl.mvc.plugin.jackson.databind.StringUnicodeSerializer;
+import com.github.relucent.base.common.collection.Listx;
+import com.github.relucent.base.common.collection.Mapx;
+import com.github.relucent.base.common.time.DateUtil;
+import com.github.relucent.base.plugin.jackson.databind.BigDecimalPowerDeserializer;
+import com.github.relucent.base.plugin.jackson.databind.BigDecimalPowerSerializer;
+import com.github.relucent.base.plugin.jackson.databind.DatePowerDeserializer;
+import com.github.relucent.base.plugin.jackson.databind.DatePowerSerializer;
 
 /**
  * Jackson_ObjectMapper的自定义扩展
+ * @author _yyl
  */
+@SuppressWarnings("serial")
 public class MyObjectMapper extends ObjectMapper {
 
-    private static final long serialVersionUID = 1L;
+	public static final MyObjectMapper INSTANCE = new MyObjectMapper();
 
-    public static final ObjectMapper INSTANCE = new MyObjectMapper();
+	public MyObjectMapper() {
+		initialize();
+	}
 
-    public MyObjectMapper() {
+	protected void initialize() {
+		// 当找不到对应的序列化器时 忽略此字段
+		this.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
-        // 当找不到对应的序列化器时 忽略此字段
-        this.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		// 支持结束
+		this.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		this.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		//
+		this.setDateFormat(new SimpleDateFormat(DateUtil.DATETIME_FORMAT));
+		// 反序列化忽略不需要的字段
+		this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        // 支持结束
-        this.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        this.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		SimpleModule module = new SimpleModule();
 
-        SimpleModule module = new SimpleModule();
+		// 将大数字转换为 String 类型
+		module.addSerializer(BigDecimal.class, BigDecimalPowerSerializer.INSTANCE);
+		module.addDeserializer(BigDecimal.class, BigDecimalPowerDeserializer.INSTANCE);
 
-        // _Unicode编码非ASCII字符
-        module.addSerializer(String.class, StringUnicodeSerializer.INSTANCE);
+		// 日期序列化与反序列化
+		module.addSerializer(Date.class, DatePowerSerializer.INSTANCE);
+		module.addDeserializer(Date.class, DatePowerDeserializer.INSTANCE);
 
-        // 日期序列化与反序列化
-        module.addSerializer(Date.class, DatePowerSerializer.INSTANCE);
-        module.addDeserializer(Date.class, DatePowerDeserializer.INSTANCE);
+		// 扩展集合类反序列化
+		module.addDeserializer(Mapx.class, JacksonConvertUtil.MAP_DESERIALIZER);
+		module.addDeserializer(Listx.class, JacksonConvertUtil.LIST_DESERIALIZER);
 
-        // 扩展集合类的反序列化
-        module.addDeserializer(Mapx.class, new MapxDeserializer());
-        module.addDeserializer(Listx.class, new ListxDeserializer());
-        this.registerModule(module);
-    }
+		this.registerModule(module);
+	}
 }

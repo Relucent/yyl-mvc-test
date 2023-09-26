@@ -12,7 +12,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.classreading.SimpleMetadataReaderFactory;
 
-import yyl.mvc.common.logging.Logger;
+import com.github.relucent.base.common.logging.Logger;
 
 /**
  * 类扫描器，用于扫描项目的类文件

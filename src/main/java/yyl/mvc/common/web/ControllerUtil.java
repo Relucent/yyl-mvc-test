@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import yyl.mvc.common.collection.Mapx;
-import yyl.mvc.common.json.JsonUtil;
-import yyl.mvc.common.logging.Logger;
+import com.github.relucent.base.common.collection.Mapx;
+import com.github.relucent.base.common.json.JsonUtil;
+import com.github.relucent.base.common.logging.Logger;
 
 /**
  * 控制器工具类(主要用于支持AJAX)<br>
@@ -125,7 +125,7 @@ public class ControllerUtil {
     }
 
     /**
-     * 包装异常
+     * 包装异常s
      * @param e 异常信息
      * @return 包装后的结果
      */

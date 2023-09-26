@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 
 import org.apache.commons.codec.binary.Hex;
 
-import yyl.mvc.common.codec.Utf8;
+import com.github.relucent.base.common.codec.Utf8;
 
 /**
  * 密码编码(加密)器实现类<br>
