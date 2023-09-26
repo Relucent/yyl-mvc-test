@@ -12,7 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import yyl.mvc.common.logging.Logger;
+import com.github.relucent.base.common.logging.Logger;
 
 /**
  * _Servlet代理，可以通过该代理，使用Spring托管_Servlet<br>

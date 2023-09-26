@@ -12,7 +12,8 @@ import java.util.concurrent.locks.Lock;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import yyl.mvc.common.convert.ConvertUtil;
+import com.github.relucent.base.common.convert.ConvertUtil;
+
 import yyl.mvc.plugin.spring.redis.constant.RedisInfoDescriptions;
 import yyl.mvc.plugin.spring.redis.info.RedisInfoEntry;
 import yyl.mvc.plugin.spring.redis.properties.CustomRedisProperties;

@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-import yyl.mvc.common.logging.Logger;
+import com.github.relucent.base.common.logging.Logger;
 
 /**
  * 模块工具类

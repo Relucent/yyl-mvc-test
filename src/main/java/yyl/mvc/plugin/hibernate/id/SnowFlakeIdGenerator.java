@@ -1,6 +1,6 @@
 package yyl.mvc.plugin.hibernate.id;
 
-import yyl.mvc.common.identifier.IdWorker;
+import com.github.relucent.base.common.identifier.IdUtil;
 
 /**
  * 基于SnowFlake的ID生成器
@@ -13,7 +13,6 @@ public class SnowFlakeIdGenerator implements IdGenerator<Long> {
      */
     @Override
     public Long generateId() {
-        return IdWorker.DEFAULT.nextId();
+        return IdUtil.snowflakeId();
     }
-
 }

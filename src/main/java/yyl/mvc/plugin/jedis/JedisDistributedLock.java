@@ -11,9 +11,11 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Consumer;
 
+import com.github.relucent.base.common.identifier.IdUtil;
+import com.github.relucent.base.common.logging.Logger;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import yyl.mvc.common.identifier.IdUtil;
 
 /**
  * 基于Redis(Jedis)的分布式锁实现
@@ -24,6 +26,8 @@ public class JedisDistributedLock implements Lock {
     private static final String UNLOCK_MESSAGE = "~unlock";
     private static final String PREFIX_ENTRY = IdUtil.uuid32();
     private static final Timer TIMER = new Timer(true);
+
+    private final Logger log = Logger.getLogger(getClass());
 
     private final JedisPool pool;
     private final long internalLockLeaseTime = 30 * 1000L;
@@ -296,6 +300,9 @@ public class JedisDistributedLock implements Lock {
                 throw new IllegalMonitorStateException("attempt to unlock lock, not locked by current thread. thread-id:" + threadId);
             }
             return status.longValue() == 0;
+        } catch (Exception e) {
+            log.error("!", e);
+            return false;
         }
     }
 
@@ -316,6 +323,9 @@ public class JedisDistributedLock implements Lock {
             final List<String> keys = Collections.singletonList(lockKey);
             final List<String> args = Arrays.asList(Long.toString(internalLockLeaseTime), getEntryName(threadId));
             return ((Number) jedis.evalsha(sha1, keys, args)).intValue() == 1;
+        } catch (Exception e) {
+            log.error("!", e);
+            return false;
         }
     }
 

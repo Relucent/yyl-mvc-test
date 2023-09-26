@@ -9,10 +9,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import com.github.relucent.base.common.logging.Logger;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
-import yyl.mvc.common.logging.Logger;
 
 /**
  * 统一公用的发布订阅处理(_Redis的订阅会造成阻断，占用一个连接)

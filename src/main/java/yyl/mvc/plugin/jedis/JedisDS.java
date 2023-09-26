@@ -1,8 +1,14 @@
 package yyl.mvc.plugin.jedis;
 
 import java.io.Closeable;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Function;
@@ -11,14 +17,22 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+
+import com.github.relucent.base.common.constant.StringConstant;
+import com.github.relucent.base.common.convert.ConvertUtil;
+import com.github.relucent.base.common.io.IoUtil;
+import com.github.relucent.base.common.lang.ArrayUtil;
+import com.github.relucent.base.common.lang.AssertUtil;
+import com.github.relucent.base.common.logging.Logger;
+import com.github.relucent.base.plugin.redis.RedisConstant;
+import com.github.relucent.base.plugin.redis.RedisInfoEntry;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
+import redis.clients.jedis.params.SetParams;
 
 /**
  * Redis 数据源 (基于Jedis封装)
@@ -26,7 +40,8 @@ import redis.clients.jedis.Protocol;
  */
 public class JedisDS implements Closeable {
 
-    // ==============================ConstantFields===================================
+    // ==============================StaticFields====================================
+    private static final Logger LOG = Logger.getLogger(JedisDS.class);
 
     // ==============================StaticMethods====================================
     /**
@@ -125,8 +140,22 @@ public class JedisDS implements Closeable {
      * @param value 值
      */
     public void setString(String key, String value) {
+        AssertUtil.notNull(key, "non null key required");
         try (Jedis jedis = getJedis()) {
             jedis.set(key, value);
+        }
+    }
+
+    /**
+     * 设置指定键的值
+     * @param key 键
+     * @param value 值
+     * @param expire 有效时间
+     */
+    public void setString(String key, String value, Duration expire) {
+        AssertUtil.notNull(key, "non null key required");
+        try (Jedis jedis = getJedis()) {
+            jedis.set(key, value, SetParams.setParams().px(expire.toMillis()));
         }
     }
 
@@ -136,6 +165,7 @@ public class JedisDS implements Closeable {
      * @return 值
      */
     public String getString(String key) {
+        AssertUtil.notNull(key, "non null key required");
         try (Jedis jedis = getJedis()) {
             return jedis.get(key);
         }
@@ -161,7 +191,7 @@ public class JedisDS implements Closeable {
      * @return 删除个数，0表示无key可删除
      */
     public Long del(String... keys) {
-        if (ArrayUtils.isEmpty(keys)) {
+        if (ArrayUtil.isEmpty(keys)) {
             return 0L;
         }
         try (Jedis jedis = getJedis()) {
@@ -187,11 +217,39 @@ public class JedisDS implements Closeable {
     }
 
     /**
+     * 获得 _Redis详细信息
+     * @return _Redis 详细条目列表
+     */
+    public List<RedisInfoEntry> getRedisInfo() {
+        try (Jedis jedis = getJedis()) {
+            Properties properties = new Properties();
+            try (Reader reader = new StringReader(jedis.info())) {
+                properties.load(reader);
+            } catch (IOException e) {
+                LOG.error("redis.info()", e);
+            }
+            List<RedisInfoEntry> info = new ArrayList<>();
+            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+                String name = ConvertUtil.toString(entry.getKey(), StringConstant.EMPTY);
+                String value = ConvertUtil.toString(entry.getValue(), StringConstant.EMPTY);
+                String description = RedisConstant.getInfoDescription(name);
+
+                RedisInfoEntry infoEntry = new RedisInfoEntry();
+                infoEntry.setName(name);
+                infoEntry.setValue(value);
+                infoEntry.setDescription(description);
+                info.add(infoEntry);
+            }
+            return info;
+        }
+    }
+
+    /**
      * 关闭数据源
      */
     @Override
     public void close() {
-        IOUtils.closeQuietly(this.pool, null);
+        IoUtil.closeQuietly(this.pool);
     }
 
     // ==============================Builder==========================================

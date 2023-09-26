@@ -2,7 +2,7 @@ package yyl.mvc.plugin.hibernate.transform;
 
 import org.hibernate.transform.AliasedTupleSubsetResultTransformer;
 
-import yyl.mvc.common.collection.Mapx;
+import com.github.relucent.base.common.collection.Mapx;
 
 @SuppressWarnings("serial")
 public class AliasToEntityMapxResultTransformer extends AliasedTupleSubsetResultTransformer {
@@ -12,7 +12,8 @@ public class AliasToEntityMapxResultTransformer extends AliasedTupleSubsetResult
     /**
      * 私有构造
      */
-    private AliasToEntityMapxResultTransformer() {}
+    private AliasToEntityMapxResultTransformer() {
+    }
 
     @Override
     public Object transformTuple(Object[] tuple, String[] aliases) {

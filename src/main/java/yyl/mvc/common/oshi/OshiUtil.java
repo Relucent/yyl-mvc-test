@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.relucent.base.common.thread.ThreadUtil;
+
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.CentralProcessor.TickType;
@@ -24,7 +26,6 @@ import yyl.mvc.common.oshi.model.MemoryInfo;
 import yyl.mvc.common.oshi.model.NetIoInfo;
 import yyl.mvc.common.oshi.model.OsInfo;
 import yyl.mvc.common.oshi.model.SystemLoadInfo;
-import yyl.mvc.common.thread.ThreadUtil;
 
 /**
  * _Oshi库封装的工具类，通过此工具类，可获取系统、硬件相关信息
