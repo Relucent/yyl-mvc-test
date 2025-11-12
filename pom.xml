@@ -48,7 +48,7 @@
         <slf4j-log4j12.version>1.7.20</slf4j-log4j12.version>
         <spring.version>5.3.39</spring.version>
         <spring-redis.version>2.7.6</spring-redis.version>
-        <yyl-base-lib.version>0.3.0</yyl-base-lib.version>
+        <yyl-base-lib.version>0.3.6</yyl-base-lib.version>
         <zookeeper.version>3.4.9</zookeeper.version>
         <servlet.version>3.0.1</servlet.version>
         <jsp.version>2.1</jsp.version>

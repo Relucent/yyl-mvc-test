@@ -17,12 +17,12 @@ public class PasswordEncoderNoOp implements PasswordEncoder {
 		return rawPassword.toString();
 	}
 
-	/**
-	 * 匹配密码明文和密文
-	 * @param rawPassword 原始密码(明文)
-	 * @param encodedPassword 加密后的密码(密文)
-	 * @return 如果明文和密文匹配则返回true,否则返回false
-	 */
+    /**
+     * 验证从存储中获取的编码密码是否与提交的原始密码匹配
+     * @param rawPassword     要进行编码和匹配的原始密码
+     * @param encodedPassword 来自存储的已编码密码，用于比较
+     * @return 如果原始密码在编码后与来自的编码密码匹配则返回true，否则返回false
+     */
 	@Override
 	public boolean matches(CharSequence rawPassword, CharSequence encodedPassword) {
 		return rawPassword.toString().equals(encodedPassword);
