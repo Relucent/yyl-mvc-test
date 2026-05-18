@@ -3,8 +3,7 @@ package yyl.mvc.plugin.spring.json;
 import org.springframework.beans.factory.FactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import yyl.mvc.plugin.jackson.MyObjectMapper;
+import com.github.relucent.base.plugin.jackson.JacksonHandler;
 
 /**
  * Jackson_ObjectMapper的工厂类
@@ -13,7 +12,7 @@ public class ObjectMapperFactoryBean implements FactoryBean<ObjectMapper> {
 
 	@Override
 	public ObjectMapper getObject() throws Exception {
-		return MyObjectMapper.INSTANCE;
+		return JacksonHandler.getDefaultObjectMapper();
 	}
 
 	@Override

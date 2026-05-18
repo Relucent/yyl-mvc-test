@@ -48,7 +48,7 @@ public class GsonHandler implements JsonHandler {
 
 	/**
 	 * 将JSON字符串解码为JAVA对象
-	 * @param <T> 对象泛型
+	 * @param <T>  对象泛型
 	 * @param json 对象的JSON字符串
 	 * @param type JAVA对象类型
 	 * @return JSON对应的JAVA对象，如果无法解析将返回NULL.
@@ -59,9 +59,9 @@ public class GsonHandler implements JsonHandler {
 
 	/**
 	 * 将JSON字符串，解码为JAVA对象
-	 * @param <T> 对象泛型
-	 * @param json JSON字符串
-	 * @param type JAVA对象类型
+	 * @param <T>          对象泛型
+	 * @param json         JSON字符串
+	 * @param type         JAVA对象类型
 	 * @param defaultValue 默认值
 	 * @return JSON对应的JAVA对象，如果无法解析将返回默认值.
 	 */
@@ -76,8 +76,8 @@ public class GsonHandler implements JsonHandler {
 
 	/**
 	 * 将JSON字符串，解码为JAVA对象
-	 * @param <T> 对象泛型
-	 * @param json JSON字符串
+	 * @param <T>   对象泛型
+	 * @param json  JSON字符串
 	 * @param token 类型标记
 	 * @return JSON对应的JAVA对象，如果无法解析将返回默认值.
 	 */
@@ -97,7 +97,7 @@ public class GsonHandler implements JsonHandler {
 	 * @return JSON对应的Map对象，如果无法解析将返回NULL.
 	 */
 	@Override
-	public Mapx toMap(String json) {
+	public Mapx decodeMap(String json) {
 		try {
 			@SuppressWarnings("deprecation")
 			JsonElement node = new JsonParser().parse(json);
@@ -115,7 +115,7 @@ public class GsonHandler implements JsonHandler {
 	 */
 
 	@Override
-	public Listx toList(String json) {
+	public Listx decodeList(String json) {
 		try {
 			@SuppressWarnings("deprecation")
 			JsonElement node = new JsonParser().parse(json);
