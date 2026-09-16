@@ -90,7 +90,7 @@ public class CriterionBuildWalker implements InitializingBean {
 
     private boolean revisePropertyType(PropertyFilter propertyFilter, Class<?> entityClass, boolean force) {
         Class<?> propertyClass = propertyFilter.getPropertyClass();
-        if (force || propertyClass == null || ConvertUtil.isStandardType(propertyClass)) {
+        if (force || propertyClass == null || ConvertUtil.isSimpleType(propertyClass)) {
             propertyClass = metadataInfoLookup.getPropertyType(entityClass, propertyFilter.getPropertyName());
             propertyFilter.setPropertyType(propertyClass);
         }
